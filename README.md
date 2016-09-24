@@ -82,3 +82,33 @@
 
 https://blog.docker.com/2015/07/new-apt-and-yum-repos/
 https://help.github.com/articles/basic-writing-and-formatting-syntax/
+
+##Docker for Web Developer
+- `eval $(docker-machine env)`, to hook up all required env variables for Mac console if docker-machine is used
+- `docker-machine [create | stop] <machine name, e.g. default>`
+- `docker pull <image>`
+- `docker [start | stop | rm] <container id/name>`
+- `docker ps -a --format 'table xxx'`
+- `docker-compose build [no-cache]`, to build images from docker-compose.yml
+- `docker-compose up -d`, bring containers up in daemon mode
+- `docker-compose ps`
+- `docker-compose logs`
+- `docker-compose down`
+- `docker exec nodeapp node lib/dbSeeder.js`, tell the container to exec a command that seeds some data
+- `docker build -f development.dockerfile -t tonykung/mydockerimage1 .`, to build a docker image from a dockerfile
+- `docker-compose -f docker-compose.development.yml build --no-cache`
+- `docker-compose -f docker-compose.development.yml up --build`
+
+###Communications among docker containers
+####Option 1, link Node to MongoDB container with legacy
+- `docker run -d --name mongodb mongo`
+- `docker run -d -p 3000:3000 --link mongodb --name nodeapp nodeapp`
+####Option 2, Create a custom bridge network and add containers into
+- `docker network create --driver bridge <network name>`
+- `docker run -d --net=<network name> --name mongodb mongo`
+- `docker run -d --net=<network name> --name nodeapp -p 3000:3000 nodeapp`
+###Option 3, Use Docker Compose
+- `docker-compose build`
+- `docker-compose up`
+
+
